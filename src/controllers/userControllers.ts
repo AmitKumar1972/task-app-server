@@ -4,8 +4,8 @@ import { UserRepository } from "../services/userService";
 
 export const createUser = (req: Request, res: Response) =>
   Effect.gen(function* () {
+    const { name } = req.body;
     const repo = yield* UserRepository;
-    const name = req.body.name;
     const user = yield* repo.createUser(name);
     return res.json(user);
   });
