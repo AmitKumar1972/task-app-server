@@ -15,4 +15,4 @@ const main = AppLive.pipe(
   Layer.provide(UserRepositoryLive),
   Layer.provide(TaskRepositoryLive)
 );
-Effect.runFork(Layer.launch(main));
+Effect.runFork(Layer.launch(main as never));
