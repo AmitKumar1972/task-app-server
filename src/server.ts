@@ -1,6 +1,7 @@
 import { Layer, Effect } from "effect";
-import { Express, ServerLive, ExpressLive } from "./utils/expressUtils";
+import { ServerLive, ExpressLive } from "./utils/expressUtils";
 import { UserRepositoryLive } from "./services/userService";
+import { TaskRepositoryLive } from "./services/taskService";
 import { RouterLive } from "./app";
 
 // Combine all layers to create the final application layer
@@ -10,5 +11,8 @@ const AppLive = ServerLive.pipe(
 );
 
 // Launch the application
-const main = AppLive.pipe(Layer.provide(UserRepositoryLive));
+const main = AppLive.pipe(
+  Layer.provide(UserRepositoryLive),
+  Layer.provide(TaskRepositoryLive)
+);
 Effect.runFork(Layer.launch(main));
