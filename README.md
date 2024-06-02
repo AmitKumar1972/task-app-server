@@ -8,7 +8,6 @@ This project is a simplified version of a task management web application SaaS. 
 - [Design Decisions](#design-decisions)
 - [Setup](#setup)
 - [Usage](#usage)
-- [Testing](#testing)
 
 ## Architecture
 
@@ -20,34 +19,8 @@ The application follows a modular architecture with the following main component
 - **Utils**: Utility functions and shared modules.
 - **Middlewares**: Handle request processing such as logging and error handling.
 
-### Directory Structure
-
-src/
-|-- tests/
-| |-- taskService.test.ts
-| |-- userController.test.ts
-|-- controllers/
-| |-- taskController.ts
-| |-- userController.ts
-|-- routes/
-| |-- taskRoutes.ts
-| |-- userRoutes.ts
-|-- services/
-| |-- taskService.ts
-| |-- userService.ts
-|-- utils/
-| |-- expressUtils.ts
-| |-- logger.ts
-| |-- errors.ts
-|-- app.ts
-|-- server.ts
-
 
 ## Design Decisions
-
-### Error Handling and Logging
-
-Error handling is implemented using custom error classes (`NotFoundError`, `ValidationError`) and logging utilities (`log`, `logError`). This ensures consistent error handling and logging across the application.
 
 ### Validation
 
