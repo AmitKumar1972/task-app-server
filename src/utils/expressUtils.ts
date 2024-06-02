@@ -54,7 +54,7 @@ export const ServerLive = Layer.scopedDiscard(
     yield* Effect.acquireRelease(
       Effect.sync(() =>
         app.listen(port, () =>
-          console.log(`Example app listening on port ${port}`)
+          console.log(`Server is listening on port ${port}`)
         )
       ),
       (server) => Effect.sync(() => server.close())
@@ -62,4 +62,8 @@ export const ServerLive = Layer.scopedDiscard(
   })
 );
 
-export const ExpressLive = Layer.sync(Express, () => express());
+export const ExpressLive = Layer.sync(Express, () => {
+  const app = express();
+  app.use(express.json());
+  return app;
+});

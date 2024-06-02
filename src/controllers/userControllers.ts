@@ -7,5 +7,5 @@ export const createUser = (req: Request, res: Response) =>
     const repo = yield* UserRepository;
     const name = req.body.name;
     const user = yield* repo.createUser(name);
-    res.json(user);
+    return res.json(user);
   });
