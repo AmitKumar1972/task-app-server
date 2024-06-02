@@ -65,17 +65,25 @@ export const getTask = (req: Request, res: Response) =>
   Effect.gen(function* () {
     const userId = Number(req.params.user_id);
     const taskId = Number(req.params.task_id);
+
     const userRepo = yield* UserRepository;
+
     const user = yield* userRepo.getUser(userId);
+
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+
     const repo = yield* TaskRepository;
+
     const task = yield* repo.getTask(userId, taskId);
+
     if (!task) {
       return res.status(404).json({ error: "Task not found" });
     }
+
     log(`Tasks retrieved for user ${userId}`);
+
     return res.json(task);
   });
 
@@ -83,19 +91,25 @@ export const updateTask = (req: Request, res: Response) =>
   Effect.gen(function* () {
     const userId = Number(req.params.user_id);
     const taskId = Number(req.params.task_id);
+
     const userRepo = yield* UserRepository;
+
     const user = yield* userRepo.getUser(userId);
+
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
     const validationError = validateTask(req);
+
     if (validationError) {
       return res.status(400).json({ error: validationError });
     }
 
     const repo = yield* TaskRepository;
+
     const { title, description, dueDate, status } = req.body;
+
     const task = yield* repo.updateTask(
       userId,
       taskId,
@@ -116,10 +130,14 @@ export const updateTask = (req: Request, res: Response) =>
 
 export const deleteTask = (req: Request, res: Response) =>
   Effect.gen(function* () {
-    const repo = yield* TaskRepository;
     const userId = Number(req.params.user_id);
     const taskId = Number(req.params.task_id);
+
+    const repo = yield* TaskRepository;
+
     yield* repo.deleteTask(userId, taskId);
+
     log(`Task deleted for user ${req.params.user_id}: ${req.params.task_id}`);
+
     return res.json({ message: "Task deleted" });
   });
