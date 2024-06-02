@@ -40,7 +40,12 @@ export const createTask = (req: Request, res: Response) =>
 
     log(`Task created for user ${req.params.user_id}: ${task.id}`);
 
-    return res.json(task);
+    const response = {
+      message: "Task created",
+      task,
+    };
+
+    return res.json(response);
   });
 
 export const getTasks = (req: Request, res: Response) =>
@@ -58,9 +63,14 @@ export const getTasks = (req: Request, res: Response) =>
 
 export const getTask = (req: Request, res: Response) =>
   Effect.gen(function* () {
-    const repo = yield* TaskRepository;
     const userId = Number(req.params.user_id);
     const taskId = Number(req.params.task_id);
+    const userRepo = yield* UserRepository;
+    const user = yield* userRepo.getUser(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const repo = yield* TaskRepository;
     const task = yield* repo.getTask(userId, taskId);
     if (!task) {
       return res.status(404).json({ error: "Task not found" });
